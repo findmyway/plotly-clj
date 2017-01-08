@@ -1,0 +1,16 @@
+# Change Log
+All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
+
+## [Unreleased]
+### Added
+- Add `plotly` to create a plotly object with dataset, traces and layout.
+- Add `save-html` to save a plotly object into a html page.
+- Add `online-init` and `offline-init` to insert plotly.min.js into a Gorilla-REPL notebook.
+- Add `iplot` to show a plotly object in Gorilla-REPL notebook.
+- Add `plot` to send a plotly object to https://plot.ly and get a sharable url.
+- Add `set-credentials` to save user-name and api-key in local file.
+- Add `group-dataset` to split a dataset into map.
+- Add `add-scatter` to plot lines and markers.
+- Add `set-dataset`, `set-layout`, `update-layout`, `set-configs`, `update-configs` to set or update a plotly object. 
+
+[Unreleased]: https://github.com/findmyway/plotly-clj
