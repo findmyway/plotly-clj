@@ -10,7 +10,8 @@
             [gorilla-renderable.core :as render]
             [clojure.java.io :refer [resource make-parents as-file]]
             [org.httpkit.client :as http]
-            [clojure.java.browse :refer [browse-url]])
+            [clojure.java.browse :refer [browse-url]]
+            [clojure.string :as string])
   (:import [java.io File]))
 
 (declare group?)
@@ -322,3 +323,11 @@
       to-string
       make-div
       plotly-view))
+
+(defn embed-url
+  [url & {:keys [width height]}]
+  (plotly-view
+   (html [:iframe {:width (or width "800")
+                   :height (or height "600")
+                   :src (str (string/replace-first url "https:" "")
+                             ".embed")}])))

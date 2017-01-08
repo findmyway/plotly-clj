@@ -12,5 +12,6 @@ All notable changes to this project will be documented in this file. This change
 - Add `group-dataset` to split a dataset into map.
 - Add `add-scatter` to plot lines and markers.
 - Add `set-dataset`, `set-layout`, `update-layout`, `set-configs`, `update-configs` to set or update a plotly object. 
+- Add `embed-url`, embed a sharable url in Gorilla-REPL notebook.
 
 [Unreleased]: https://github.com/findmyway/plotly-clj
