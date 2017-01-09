@@ -15,5 +15,6 @@ All notable changes to this project will be documented in this file. This change
 - Add `embed-url`, embed a sharable url in Gorilla-REPL notebook.
 - Add `plot-seq`, enable for comprehension to apply a sequence of add-fn. The implementation is a little ugly. A macro is needed.
 - Add `add-annotations`, like geom_text in R.
+- Add `add-bar`, plot bar charts.
 
 [Unreleased]: https://github.com/findmyway/plotly-clj

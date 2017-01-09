@@ -234,16 +234,18 @@
     :else
     p))
 
-(defn add-scatter
-  "Add scatter trace to a plotly object.
+(defn add-fn
+  "Add general trace to a plotly object.
   This function supports grouped dataset.
   "
-  [{:keys [ds traces] :as p} & {:as params}]
+  [{:keys [ds traces] :as p}
+   add-type
+   params]
   (cond
     (group? ds)
     (let [gp-ds (vec (vals ds))
           gp-params (vec (trans-gp-params params (keys ds)))
-          p-new (reduce #(apply add-scatter
+          p-new (reduce #(apply add-fn
                                 (assoc %1 :ds (nth gp-ds %2))
                                 (nth gp-params %2))
                         p
@@ -252,13 +254,16 @@
       (set-dataset p-new ds))
 
     (nil? ds)
-    (update p :traces #(conj % (merge {:type "scatter"} params)))
+    (update p :traces #(conj % (merge {:type add-type} params)))
 
     :else
     (let [params (trans-params params ds)
           data (get-default-xy ds)
-          trace (merge {:type "scatter"} data params)]
+          trace (merge {:type add-type} data params)]
       (update p :traces #(conj % trace)))))
+
+(def add-scatter (fn [p & {:as params}] (add-fn p "scatter" params)))
+(def add-bar (fn [p & {:as params}] (add-fn p "bar" params)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def cred-path (str (System/getProperty  "user.home") (File/separator) ".plotly" (File/separator) ".credentials"))
