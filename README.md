@@ -16,6 +16,7 @@ for how to use. You can also see the examples online as follows:
 
 1. [Scatter](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/scatter.clj)
 2. [Bubble-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/bubble-charts.clj)
+3. [Line-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/line-charts.clj)
 
 ### Plot offline in a html page
 

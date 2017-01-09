@@ -79,7 +79,7 @@
   (merge-with  (fn  [x y]
                  (cond
                    (map? y)  (deep-merge x y)
-                   (vector? y) (vec (concat x y))
+                   (sequential? y) (vec (concat x y))
                    :else y))
                a b))
 
@@ -218,6 +218,22 @@
     :else {}))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defn plot-seq
+  "Apply a sequence add-fn commands to a plotly object.
+  cmds is a sequence of functions that take a plotly object as param."
+  [p cmds]
+  (reduce #(%2 %1) p cmds))
+
+(defn add-annotations
+  [p ann]
+  (cond
+    (map? ann) ;; only one annotation
+    (update-layout p :annotations [ann])
+    (sequential? ann)
+    (update-layout p :annotations ann)
+    :else
+    p))
+
 (defn add-scatter
   "Add scatter trace to a plotly object.
   This function supports grouped dataset.
