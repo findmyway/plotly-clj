@@ -18,6 +18,7 @@ for how to use. You can also see the examples online as follows:
 2. [Bubble-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/bubble-charts.clj)
 3. [Line-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/line-charts.clj)
 4. [Bar-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/bar-charts.clj)
+4. [Horizontal-Bar-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/horizontal-bar-charts.clj)
 
 ### Plot offline in a html page
 

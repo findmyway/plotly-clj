@@ -90,7 +90,10 @@
   (assoc p :ds (apply make-dataset xs)))
 
 (defn set-layout
-  "Set the layout of a plotly object"
+  "Set the layout of a plotly object.
+  This function will clear all the layout and reset the layout!
+  So functions like `add-annotations` will not work if called before
+  this function."
   [p & {:as params}]
   (assoc p :layout params))
 
@@ -225,6 +228,7 @@
   (reduce #(%2 %1) p cmds))
 
 (defn add-annotations
+  "This function will update the layout of a plotly object."
   [p ann]
   (cond
     (map? ann) ;; only one annotation
