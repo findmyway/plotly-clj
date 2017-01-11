@@ -19,6 +19,7 @@ for how to use. You can also see the examples online as follows:
 3. [Line-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/line-charts.clj)
 4. [Bar-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/bar-charts.clj)
 4. [Horizontal-Bar-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/horizontal-bar-charts.clj)
+5. [Subplot](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/subplot.clj)
 
 ### Plot offline in a html page
 
