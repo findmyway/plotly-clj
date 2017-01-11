@@ -227,6 +227,57 @@
   [p cmds]
   (reduce #(%2 %1) p cmds))
 
+(defn subplot
+  "Bind each trace to a xaxis and a yaxis.
+  This function supports only limited params currently.
+  TODO: Check nrow ncol zero?"
+  [p & {:keys [nrow ncol sharex sharey reversey titles]}]
+  (let [n (count (:traces p))
+        [nx ny] (cond
+                  (and ncol nrow) [ncol nrow]
+                  ncol [ncol (inc (quot (dec n) ncol))]
+                  nrow [(inc (quot (dec n) nrow)) nrow]
+                  :else [1 n])
+        x-bind (if sharex
+                 (m/array (repeat ny (range 1 (inc nx))))
+                 (m/reshape (range 1 (inc (* nx ny))) [ny nx]))
+        y-bind (if sharey
+                 (m/transpose (m/array (repeat nx (range 1 (inc ny)))))
+                 (m/transpose (m/reshape (m/array (range 1 (inc (* nx ny)))) [nx ny])))
+        xy-bind (let [xy (map vector (m/eseq x-bind) (m/eseq y-bind))]
+                  (if reversey xy (apply concat (reverse (partition nx xy)))))
+        xaxis-names (if sharex (range 1 (inc nx)) (m/eseq x-bind))
+        yaxis-names (if sharey (range 1 (inc ny)) (m/eseq y-bind))
+        get-domains (fn [n] (let [gap (if (= 1 n) 0 (/ 0.2 (dec n)))
+                                  span (if (= 1 n) 1 (/ 0.8 n))]
+                              (map #(vector (* % (+ span gap))
+                                            (+ (* gap %) (* span (inc %))))
+                                   (range n))))
+        x-domains (if sharex
+                    (get-domains nx)
+                    (apply concat (repeat ny (get-domains nx))))
+        y-domains (if sharey
+                    (get-domains ny)
+                    (apply concat (map #(repeat nx %) (get-domains ny))))
+        x-axis (map #(hash-map (keyword (str "xaxis" %1))
+                               {:domain %2 :anchor (str "y" %3)})
+                    xaxis-names
+                    x-domains
+                    (if sharex  (m/select y-bind :first :all) (m/eseq y-bind)))
+        y-axis (map #(hash-map (keyword (str "yaxis" %1))
+                               {:domain %2 :anchor (str "x" %3)})
+                    yaxis-names
+                    y-domains
+                    (if sharey (m/select x-bind :all :first) (m/eseq x-bind)))]
+    (-> p
+        (update :traces #(map (fn [t [x y]]
+                                (-> t
+                                    (assoc :xaxis (str "x" x))
+                                    (assoc :yaxis (str "y" y))))
+                              % xy-bind))
+        (update :layout #(apply merge % x-axis))
+        (update :layout #(apply merge % y-axis)))))
+
 (defn add-annotations
   "This function will update the layout of a plotly object."
   [p ann]
