@@ -2,6 +2,8 @@
 
 A Clojure library designed for creating interactive web graphics via the open source JavaScript graphing library [plotly.js](https://github.com/plotly/plotly.j://github.com/plotly/plotly.js).
 
+[![Clojars Project](https://img.shields.io/clojars/v/plotly-clj.svg)](https://clojars.org/plotly-clj)
+
 This library is still under development. Any suggestions are welcome!
 
 ## Usage

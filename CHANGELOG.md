@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [Unreleased]
+## [0.1.0]
 ### Added
 - Add `plotly` to create a plotly object with dataset, traces and layout.
 - Add `save-html` to save a plotly object into a html page.
@@ -22,4 +22,4 @@ All notable changes to this project will be documented in this file. This change
 - Add `add-histogram-2d` and `add-histogram`
 - Add `add-mesh3d`, `add-contour`, `add-heatmap`
 
-[Unreleased]: https://github.com/findmyway/plotly-clj
+[0.1.0]: https://github.com/findmyway/plotly-clj/tree/0.1.0

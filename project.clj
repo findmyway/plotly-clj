@@ -1,4 +1,4 @@
-(defproject plotly-clj "0.1.0-SNAPSHOT"
+(defproject plotly-clj "0.1.0"
   :description "Plotly Clojure Client"
   :url "https://github.com/findmyway/plotly-clj"
   :license {:name "MIT License"
