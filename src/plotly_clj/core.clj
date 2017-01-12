@@ -321,9 +321,11 @@
 
 (def add-scatter (fn [p & {:as params}] (add-fn p "scatter" params)))
 (def add-bar (fn [p & {:as params}] (add-fn p "bar" params)))
+(def add-histogram (fn [p & {:as params}] (add-fn p "histogram" params)))
+(def add-histogram-2d (fn [p & {:as params}] (add-fn p "histogram2d" params)))
 
 (defn add-fn-3d
-  "Add 3d scatters."
+  "Add general 3d trace."
   [{:keys [ds traces] :as p}
    add-type
    params]
@@ -333,6 +335,9 @@
 
 (def add-scatter-3d (fn [p & {:as params}] (add-fn-3d p "scatter3d" params)))
 (def add-surface (fn [p & {:as params}] (add-fn-3d p "surface" params)))
+(def add-mesh3d (fn [p & {:as params}] (add-fn-3d p "mesh3d" params)))
+(def add-contour (fn [p & {:as params}] (add-fn-3d p "contour" params)))
+(def add-heatmap (fn [p & {:as params}] (add-fn-3d p "heatmap" params)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def cred-path (str (System/getProperty  "user.home") (File/separator) ".plotly" (File/separator) ".credentials"))

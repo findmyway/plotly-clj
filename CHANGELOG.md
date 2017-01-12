@@ -19,5 +19,7 @@ All notable changes to this project will be documented in this file. This change
 - Add `subplot`, make subplots of existing traces.
 - Add `scatter-3d`, show 3d scatters.
 - Add `add-surface`.
+- Add `add-histogram-2d` and `add-histogram`
+- Add `add-mesh3d`, `add-contour`, `add-heatmap`
 
 [Unreleased]: https://github.com/findmyway/plotly-clj
