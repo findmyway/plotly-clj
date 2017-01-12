@@ -1,10 +1,18 @@
 # plotly-clj
 
-A Clojure library designed for creating interactive web graphics via the open source JavaScript graphing library [plotly.js](https://github.com/plotly/plotly.j://github.com/plotly/plotly.js).
-
 [![Clojars Project](https://img.shields.io/clojars/v/plotly-clj.svg)](https://clojars.org/plotly-clj)
 
+A Clojure library designed for creating interactive web graphics via the open source JavaScript graphing library [plotly.js](https://github.com/plotly/plotly.j://github.com/plotly/plotly.js).
+
 This library is still under development. Any suggestions are welcome!
+
+## Installation
+
+Install with Leiningen, add the following to your `:dependencies`:
+
+```
+[plotly-clj "0.1.0"]
+```
 
 ## Usage
 
@@ -13,8 +21,19 @@ There are three ways to use this library.
 ### Plot offline with Gorilla-REPL
 
 This is the most common way to use this library. By integrating with [Gorilla-REPL](http://gorilla-repl.org/), 
-you can easily plot figures like what you do in ipython notebooks. Checkout the examples folder
-for how to use. You can also see the examples online as follows:
+you can easily plot figures like what you do in ipython notebooks. 
+
+```clojure
+(ns x (:use [plotly-clj.core]))
+
+(offline-init)
+
+(-> (plotly [2 1 3])
+    add-scatter
+    iplot)
+```
+
+Checkout the following examples for how to use:
 
 1. [Scatter](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/scatter.clj)
 2. [Bubble-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/bubble-charts.clj)
@@ -29,9 +48,13 @@ for how to use. You can also see the examples online as follows:
 
 In this way, you can save the plot in a html page and check it out in a browser.
 
-```
+```clojure
+(ns x (:use [plotly-clj.core]))
+
+(offline-init)
+
 (-> (plotly [2 1 3])
-    (add-scatter)
+    add-scatter
     (save-html "plotly.html" :open))
 ```
 
@@ -41,12 +64,13 @@ You can also send your figure to the [plot.ly](https://plot.ly) and get a sharab
 Notice that you should set the user-name and api-key first. You can register a count first
 and find your api-key at [here](https://plot.ly/settings/api).
 
-```
+```clojure
 (set-credentials "your-name" "your-api-key")
 
 (-> (plotly [2 1 3])
-    (add-scatter)
-    plot)
+    add-scatter
+    (plot "filename"))
+;; https://plot.ly/~findmyway/98
 ```
 
 ## License
