@@ -13,4 +13,6 @@
                  [http-kit  "2.2.0"]
                  [lein-gorilla "0.4.0"]
                  [org.clojure/data.csv "0.1.3"]]
-  :plugins [[lein-gorilla "0.4.0"]])
+  :plugins [[lein-gorilla "0.4.0"]]
+  :repositories  [["releases"  {:url  "https://clojars.org/repo"
+                                :creds :gpg}]])
