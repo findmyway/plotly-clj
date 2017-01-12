@@ -18,5 +18,6 @@ All notable changes to this project will be documented in this file. This change
 - Add `add-bar`, plot bar charts.
 - Add `subplot`, make subplots of existing traces.
 - Add `scatter-3d`, show 3d scatters.
+- Add `add-surface`.
 
 [Unreleased]: https://github.com/findmyway/plotly-clj

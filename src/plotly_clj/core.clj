@@ -322,13 +322,17 @@
 (def add-scatter (fn [p & {:as params}] (add-fn p "scatter" params)))
 (def add-bar (fn [p & {:as params}] (add-fn p "bar" params)))
 
-(defn add-scatter-3d
+(defn add-fn-3d
   "Add 3d scatters."
   [{:keys [ds traces] :as p}
-   & {:as params}]
+   add-type
+   params]
   (let [params (trans-params params ds)
-        trace (merge {:type "scatter3d"} params)]
+        trace (merge {:type add-type} params)]
     (update p :traces #(conj % trace))))
+
+(def add-scatter-3d (fn [p & {:as params}] (add-fn-3d p "scatter3d" params)))
+(def add-surface (fn [p & {:as params}] (add-fn-3d p "surface" params)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def cred-path (str (System/getProperty  "user.home") (File/separator) ".plotly" (File/separator) ".credentials"))
@@ -381,7 +385,7 @@
     (let [url (:url res)]
       (if (empty? url)
         (:error res)
-        url)))))
+        url))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;===== Gorilla REPL rendering  =====;;;;;;;;;;;;;;;;;;;;;;;;
 (defrecord PlotlyView  [contents])

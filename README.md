@@ -21,6 +21,7 @@ for how to use. You can also see the examples online as follows:
 4. [Horizontal-Bar-Charts](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/horizontal-bar-charts.clj)
 5. [Subplot](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/subplot.clj)
 6. [Scater-3d](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/scatter-3d.clj)
+7. [Surface](http://viewer.gorilla-repl.org/view.html?source=github&user=findmyway&repo=plotly-clj&path=examples/surface.clj)
 
 ### Plot offline in a html page
 
