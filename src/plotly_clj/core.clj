@@ -168,7 +168,8 @@
         (sp/multi-path
          [(sp/must :marker) (sp/must :size) keyword?]
          [(sp/must :x) keyword?]
-         [(sp/must :y) keyword?])
+         [(sp/must :y) keyword?]
+         [(sp/must :z) keyword?])
         #(d/column dataset %))
 
        (sp/transform
@@ -179,6 +180,7 @@
         (sp/multi-path
          [(sp/must :x) fn?]
          [(sp/must :y) fn?]
+         [(sp/must :z) fn?]
          [(sp/must :marker) (sp/must :size) fn?]
          [(sp/must :marker) (sp/must :color) fn?])
         #(% dataset))))
@@ -320,6 +322,14 @@
 (def add-scatter (fn [p & {:as params}] (add-fn p "scatter" params)))
 (def add-bar (fn [p & {:as params}] (add-fn p "bar" params)))
 
+(defn add-scatter-3d
+  "Add 3d scatters."
+  [{:keys [ds traces] :as p}
+   & {:as params}]
+  (let [params (trans-params params ds)
+        trace (merge {:type "scatter3d"} params)]
+    (update p :traces #(conj % trace))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (def cred-path (str (System/getProperty  "user.home") (File/separator) ".plotly" (File/separator) ".credentials"))
 
@@ -366,8 +376,12 @@
                                               :layout layout
                                               :world_readable (if (nil? world-readable) true world-readable)})}
                     {:un username :key api-key})
-        resp @(http/post  "https://plot.ly/clientresp" {:form-params data})]
-    (:url (json/read-str (:body resp) :key-fn keyword))))
+        resp @(http/post  "https://plot.ly/clientresp" {:form-params data})
+        res (json/read-str (:body resp) :key-fn keyword)]
+    (let [url (:url res)]
+      (if (empty? url)
+        (:error res)
+        url)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;===== Gorilla REPL rendering  =====;;;;;;;;;;;;;;;;;;;;;;;;
 (defrecord PlotlyView  [contents])
