@@ -63,5 +63,19 @@
 ;; <=
 
 ;; @@
+(-> (plotly)
+    (add-scatter :x [1 2 3] :y [2 3 4])
+    (add-scatter-3d :x [1 2 3] :y [2 3 4] :z [1 1 1])
+    (add-scatter :x [1 2 3] :y [2 3 4])
+    (add-scatter-3d :x [1 2 3] :y [2 3 4] :z [1 1 1])
+    (subplot :nrow 2)
+    (plot "simple subplots 4" :fileopt "overwrite")
+    embed-url)
+;; @@
+;; =>
+;;; {"type":"html","content":"<iframe height=\"600\" src=\"//plot.ly/~findmyway/130.embed\" width=\"800\"></iframe>","value":"pr'ed value"}
+;; <=
+
+;; @@
 
 ;; @@
