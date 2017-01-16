@@ -229,56 +229,94 @@
   [p cmds]
   (reduce #(%2 %1) p cmds))
 
+(def traces-3d #{"scatter3d" "surface" "mesh3d"})
+
 (defn subplot
   "Bind each trace to a xaxis and a yaxis.
   This function supports only limited params currently.
+
+  Example:
+  traces: [trace1 trace2 trace3 trace4 trace5 trace6]
+  nrow: 2
+  ncol: 3
+  x-bind(sharex true):
+      [[1 2]
+       [1 2]
+       [1 2]]
+  y-bind(sharey true):
+      [[1 1]
+       [2 2]
+       [3 3]]
+  x-bind(sharex false):
+      [[1 2]
+       [3 4]
+       [5 6]]
+  y-bind(sharey false):
+      [[1 4]
+       [2 5]
+       [3 6]]
+
+  x-domains: ([0 0.4][0.6 1][0 0.4][0.6 1][0 0.4][0.6 1])
+  y-domains: ([0.7333 1][0.3666 0.6333][0 0.2666][0.7333 1][0.3666 0.6333][0 0.2666])
   TODO: Check nrow ncol zero?"
   [p & {:keys [nrow ncol sharex sharey reversey titles]}]
   (let [n (count (:traces p))
-        [nx ny] (cond
-                  (and ncol nrow) [ncol nrow]
-                  ncol [ncol (inc (quot (dec n) ncol))]
-                  nrow [(inc (quot (dec n) nrow)) nrow]
-                  :else [1 n])
+        [ncol nrow] (cond
+                      (and ncol nrow) [ncol nrow]
+                      ncol [ncol (inc (quot (dec n) ncol))]
+                      nrow [(inc (quot (dec n) nrow)) nrow]
+                      :else [1 n])
         x-bind (if sharex
-                 (m/array (repeat ny (range 1 (inc nx))))
-                 (m/reshape (range 1 (inc (* nx ny))) [ny nx]))
+                 (m/array (repeat nrow (range 1 (inc ncol))))
+                 (m/reshape (range 1 (inc (* ncol nrow))) [nrow ncol]))
         y-bind (if sharey
-                 (m/transpose (m/array (repeat nx (range 1 (inc ny)))))
-                 (m/transpose (m/reshape (m/array (range 1 (inc (* nx ny)))) [nx ny])))
-        xy-bind (let [xy (map vector (m/eseq x-bind) (m/eseq y-bind))]
-                  (if reversey xy (apply concat (reverse (partition nx xy)))))
-        xaxis-names (if sharex (range 1 (inc nx)) (m/eseq x-bind))
-        yaxis-names (if sharey (range 1 (inc ny)) (m/eseq y-bind))
-        get-domains (fn [n] (let [gap (if (= 1 n) 0 (/ 0.2 (dec n)))
-                                  span (if (= 1 n) 1 (/ 0.8 n))]
+                 (m/transpose (m/array (repeat ncol (range 1 (inc nrow)))))
+                 (m/transpose (m/reshape (range 1 (inc (* ncol nrow))) [ncol nrow])))
+        get-domains (fn [n] (let [gap (if (= 1 n) 0 (/ 0.1 (dec n)))
+                                  span (if (= 1 n) 1 (/ 0.9 n))]
                               (map #(vector (* % (+ span gap))
                                             (+ (* gap %) (* span (inc %))))
                                    (range n))))
-        x-domains (if sharex
-                    (get-domains nx)
-                    (apply concat (repeat ny (get-domains nx))))
-        y-domains (if sharey
-                    (get-domains ny)
-                    (apply concat (map #(repeat nx %) (get-domains ny))))
-        x-axis (map #(hash-map (keyword (str "xaxis" %1))
-                               {:domain %2 :anchor (str "y" %3)})
-                    xaxis-names
-                    x-domains
-                    (if sharex  (m/select y-bind :first :all) (m/eseq y-bind)))
-        y-axis (map #(hash-map (keyword (str "yaxis" %1))
-                               {:domain %2 :anchor (str "x" %3)})
-                    yaxis-names
-                    y-domains
-                    (if sharey (m/select x-bind :all :first) (m/eseq x-bind)))]
+        x-domains (apply concat (repeat nrow (get-domains ncol)))
+        y-domains (apply concat (repeat ncol (reverse (get-domains nrow))))
+
+        is-trace-3d (map #(traces-3d (:type %)) (:traces p))
+        scenes (map-indexed (fn [i is-3d]
+                              (when is-3d
+                                (let [x (nth (m/eseq x-bind) i)
+                                      y (nth (m/eseq y-bind) i)]
+                                  {(keyword (str "scene" (inc i)))
+                                   {:domain {:x (nth x-domains (dec x))
+                                             :y (nth y-domains (dec y))}}})))
+                            is-trace-3d)
+        x-axis (map-indexed (fn [i is-3d]
+                              (when-not is-3d
+                                (let [x (nth (m/eseq x-bind) i)
+                                      y (nth (m/eseq y-bind) i)]
+                                  {(keyword (str "xaxis" x))
+                                   {:domain (nth x-domains (dec x))
+                                    :anchor (str "y" y)}})))
+                            is-trace-3d)
+        y-axis (map-indexed (fn [i is-3d]
+                              (when-not is-3d
+                                (let [x (nth (m/eseq x-bind) i)
+                                      y (nth (m/eseq y-bind) i)]
+                                  {(keyword (str "yaxis" y))
+                                   {:domain (nth y-domains (dec y))
+                                    :anchor (str "x" x)}})))
+                            is-trace-3d)]
     (-> p
-        (update :traces #(map (fn [t [x y]]
-                                (-> t
-                                    (assoc :xaxis (str "x" x))
-                                    (assoc :yaxis (str "y" y))))
-                              % xy-bind))
+        (update :traces #(map (fn [t i x y]
+                                (if (traces-3d (:type t))
+                                  (assoc t :scene (str "scene" i))
+                                  (-> t
+                                      (assoc :xaxis (str "x" x))
+                                      (assoc :yaxis (str "y" y)))))
+                              % (range 1 (inc (count %))) (m/eseq x-bind) (m/eseq y-bind)))
+        (update :layout #(apply merge % scenes))
         (update :layout #(apply merge % x-axis))
-        (update :layout #(apply merge % y-axis)))))
+        ;; The reverse is needed here, which makes y-axis align to left if sharey is set.
+        (update :layout #(apply merge % (reverse y-axis))))))
 
 (defn add-annotations
   "This function will update the layout of a plotly object."

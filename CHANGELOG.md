@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [0.1.1-SNAPSHOT]
+### Changed
+
+- `subplot` now support 3d plots.
+
 ## [0.1.0]
 ### Added
 - Add `plotly` to create a plotly object with dataset, traces and layout.
