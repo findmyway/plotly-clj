@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [0.1.1-SNAPSHOT]
+## [0.1.1]
 ### Changed
 
 - `subplot` now support 3d plots.
@@ -27,4 +27,5 @@ All notable changes to this project will be documented in this file. This change
 - Add `add-histogram-2d` and `add-histogram`
 - Add `add-mesh3d`, `add-contour`, `add-heatmap`
 
+[0.1.1]: https://github.com/findmyway/plotly-clj/tree/0.1.1
 [0.1.0]: https://github.com/findmyway/plotly-clj/tree/0.1.0
