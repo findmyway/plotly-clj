@@ -278,7 +278,9 @@
                                             (+ (* gap %) (* span (inc %))))
                                    (range n))))
         x-domains (apply concat (repeat nrow (get-domains ncol)))
-        y-domains (apply concat (repeat ncol (reverse (get-domains nrow))))
+        y-domains (apply concat (repeat ncol (if reversey
+                                               (get-domains nrow)
+                                               (reverse (get-domains nrow)))))
 
         is-trace-3d (map #(traces-3d (:type %)) (:traces p))
         scenes (map-indexed (fn [i is-3d]
