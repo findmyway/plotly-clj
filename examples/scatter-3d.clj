@@ -5,20 +5,11 @@
 ;; **
 
 ;; @@
-(ns scatter-3d
-  (:require [hiccup.core :refer [html]]
-            [clojure.data.json :as json]
-            [clojure.core.matrix :as m]
-            [clojure.core.matrix.random :as rnd]
+(ns bar
+  (:require [clojure.core.matrix :as m]
             [clojure.core.matrix.dataset :as d]
-            [com.rpl.specter :as sp]
-            [clojure.set :as s]
-            [plotly-clj.scale :refer [scale-color factor]]
-            [gorilla-renderable.core :as render]
-            [clojure.java.io :refer [resource make-parents as-file]]
-            [org.httpkit.client :as http]
-            [clojure.java.browse :refer [browse-url]]
-            [clojure.string :as string])
+            [clojure.core.matrix.random :as rnd]
+            [clojure.data.csv :as csv])
   (:use [plotly-clj.core] :reload-all))
 ;; @@
 ;; =>
@@ -33,6 +24,17 @@
 ;; <=
 
 ;; @@
+(let [steps (range 0 20 0.1)]
+  (-> (plotly)
+      (add-scatter-3d :x (m/sin steps) :y (m/cos steps) :z steps :mode "lines")
+      (plot "simple lines 3d" :fileopt "overwrite")
+      embed-url))
+;; @@
+;; =>
+;;; {"type":"html","content":"<iframe height=\"600\" src=\"//plot.ly/~findmyway/132.embed\" width=\"800\"></iframe>","value":"pr'ed value"}
+;; <=
+
+;; @@
 (def data 
   (let [in-file (slurp "https://raw.githubusercontent.com/plotly/datasets/master/3d-scatter.csv")
         data (doall (csv/read-csv in-file))]
@@ -40,7 +42,7 @@
   ))
 ;; @@
 ;; =>
-;;; {"type":"html","content":"<span class='clj-var'>#&#x27;scatter-3d/data</span>","value":"#'scatter-3d/data"}
+;;; {"type":"html","content":"<span class='clj-var'>#&#x27;bar/data</span>","value":"#'bar/data"}
 ;; <=
 
 ;; @@
