@@ -51,8 +51,6 @@ In this way, you can save the plot in a html page and check it out in a browser.
 ```clojure
 (ns x (:use [plotly-clj.core]))
 
-(offline-init)
-
 (-> (plotly [2 1 3])
     add-scatter
     (save-html "plotly.html" :open))
@@ -65,6 +63,8 @@ Notice that you should set the user-name and api-key first. You can register a c
 and find your api-key at [here](https://plot.ly/settings/api).
 
 ```clojure
+(ns x (:use [plotly-clj.core]))
+
 (set-credentials "your-name" "your-api-key")
 
 (-> (plotly [2 1 3])
