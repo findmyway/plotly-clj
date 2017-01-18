@@ -11,7 +11,7 @@ This library is still under development. Any suggestions are welcome!
 Install with Leiningen, add the following to your `:dependencies`:
 
 ```
-[plotly-clj "0.1.0"]
+[plotly-clj "0.1.1"]
 ```
 
 ## Usage
